@@ -154,8 +154,8 @@ def train(FLAGS):
                 np.save(os.path.join(FLAGS.save_dir, "train_acc"), train_acc)
                 np.save(os.path.join(FLAGS.save_dir, "valid_loss"), valid_loss)
                 np.save(os.path.join(FLAGS.save_dir, "valid_acc"), valid_acc)
-                checkpoint_path = os.path.join(FLAGS.save_dir, 'model.ckpt')
-                saver.save(sess, checkpoint_path, global_step=step)
+            checkpoint_path = os.path.join(FLAGS.save_dir, 'model.ckpt')
+            saver.save(sess, checkpoint_path, global_step=step)
                 
             coord.request_stop()
             coord.join(threads)
