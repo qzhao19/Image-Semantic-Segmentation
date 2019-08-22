@@ -103,4 +103,10 @@ def inference(FLAGS):
                 hist += get_hist(dense_prediction, label_batch)
     
             print_hist_summary(hist)
-    
+
+def main(args):
+    inference(FLAGS)
+
+        
+if __name__ == '__main__':
+    tf.app.run()    
