@@ -89,7 +89,7 @@ def calc_loss(logits, labels, num_classes):
     
     
 
-def train_op(total_loss, global_steps):
+def train_op(total_loss, global_steps, base_learning_rate):
     """This function defines train optimizer 
     Args:
         total_loss: the loss value
@@ -102,7 +102,7 @@ def train_op(total_loss, global_steps):
     # get updated opration 
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     with tf.control_dependencies(update_ops):
-        base_learning_rate = 0.1
+        # base_learning_rate = 0.1
         # define learning rate decay strategy, here we used exponentiel_decay
         learning_rate_decay = tf.train.exponential_decay(base_learning_rate, global_steps, 1000, 0.0005)
         optimizer = tf.train.GradientDescentOptimizer(learning_rate_decay)
