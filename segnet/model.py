@@ -2,7 +2,7 @@ import tensorflow as tf
 from layers import max_pool, variable_with_weights_decay, conv2d, up_sampling, initialization
 
 
-def segnet(inputs, batch_size, num_classes, is_training):
+def segnet(inputs, num_classes, is_training):
     """segnet model function
     
     Args:
