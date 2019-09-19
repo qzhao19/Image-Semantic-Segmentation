@@ -81,7 +81,7 @@ def train(FLAGS):
         valid_images, valid_labels = dataset_inputs(valid_image_filename, valid_label_filename, batch_size, FLAGS)
         
         # build a graph that compute the logits prediction from model
-        logits = segnet(images_pl, labels_pl, num_classes, is_training_pl)
+        logits = segnet(images_pl, num_classes, is_training_pl)
         
         loss, accuracy, _ = calc_loss(logits, labels_pl, num_classes)
         
