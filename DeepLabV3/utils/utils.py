@@ -1,3 +1,5 @@
+import os
+
 def load_image_label_file(file_path):
     """The function is to read image
     Args:
