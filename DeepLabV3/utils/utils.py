@@ -5,16 +5,16 @@ def load_image_label_file(file_path):
     Return:
         image filename list and label filename list
     """
-    image_filename = []
-    label_filename = []
+    image_filename_list = []
+    label_filename_list = []
     if not os.path.exists(file_path):
         raise ValueError('file could not be opened, perhaps you need to check it')
     # open file
     with open(file_path, 'r') as file:
         lines = [line.strip().split(' ') for line in file.readlines()]
     for i in range(len(lines)):
-        image_filename.append(lines[i][0])
-        label_filename.append(lines[i][0])
+        image_filename_list.append(lines[i][0])
+        label_filename_list.append(lines[i][0])
     
-    return image_filename, label_filename
+    return image_filename_list, label_filename_list
     
