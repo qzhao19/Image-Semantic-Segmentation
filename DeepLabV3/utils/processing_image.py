@@ -4,11 +4,11 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 
-def read_image_label(image_filename, label_filename, shape=(256, 256, 3)):
+def read_image_label(image_filename, label_filename):
     """This function is to read rbg image and the ground truth image.
     Args:
-        image_filename: string, image filename
-        label_filename: string, label image filename
+        image_filename: string, an image filename
+        label_filename: string, a label image filename
         shape: int tuple, image and label shape
     Returns:
         image object with default uint8 type [0, 255]
@@ -18,8 +18,10 @@ def read_image_label(image_filename, label_filename, shape=(256, 256, 3)):
     bgr_label = cv2.imread(label_filename)
 
     # resize image
-    bgr_image = cv2.resize(bgr_image, (shape[0], shape[1]), interpolation=cv2.INTER_NEAREST)
-    bgr_label = cv2.resize(bgr_label, (shape[0], shape[1]), interpolation=cv2.INTER_NEAREST)
+    
+    if bgr_image.shape[:1] != bgr_label.shape[:1]:
+        bgr_image = cv2.resize(bgr_image, (512, 512), interpolation=cv2.INTER_LINEAR)
+        bgr_label = cv2.resize(bgr_label, (512, 512), interpolation=cv2.INTER_NEAREST)
 
     if (len(bgr_image.shape) != 3) | (len(bgr_label.shape) != 3):
         print('Warning: grey image!', image_path.split('/')[-1])
@@ -31,6 +33,7 @@ def read_image_label(image_filename, label_filename, shape=(256, 256, 3)):
     rgb_label = cv2.cvtColor(bgr_label, cv2.COLOR_BGR2RGB)
 
     return np.asarray(rgb_image), np.asarray(rgb_label)
+    
     
 
 def normalize_image(images, mode='tf'):
@@ -85,6 +88,43 @@ def random_flip_image_and_label(image, label):
     """
     image = tf.image.random_flip_left_right(image)
     label = tf.image.random_flip_left_right(label)
+
+    return image, label
+
+
+
+def resize_image_label(image, label, shape):
+    """Resize image and label  
+    Args:
+        image: 3D tensor of shape [height, width, channel]
+        label: 3D tensor of shape [height, width, 1]
+        shape: tuple of image shape [height, width, channel]
+    Returns:
+        A 3-D tensor of the same type and shape as `image`.
+        A 3-D tensor of the same type and shape as `label`.
+    """
+
+    image = tf.image.resize_images(image_bytes, (shape[0], shape[1]), method=tf.image.ResizeMethod.BILINEAR)
+    label = tf.image.resize_images(label_bytes, (shape[0], shape[1]), method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
+
+    return image, label
+
+
+def preprocess_image(image, label, shape, mode, is_training):
+    """Image preprocessing interface, if is_training procedure, we want to normalize and randomly flip image, 
+    if not we just resize image.
+    Args:
+        image: 3D tensor 
+        label: 3D tensor
+        is_training: boolean, if is training
+    """
+    if is_training:
+        # resize image and label
+        image, label = resize_image_label(image, label, shape)
+        # Randomly flip the image and label horizontally.
+        image, label = random_flip_image_label(image, label)
+        
+    image = normalize_image(image, mode=mode)
 
     return image, label
 
