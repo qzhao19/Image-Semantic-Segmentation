@@ -113,7 +113,11 @@ def read_tfrecords(tfrecords_file, shape, batch_size, num_images, num_epochs, mo
     """Read tfrecords file using tensorflow TFRecordDataset module, which means a tfrecord data generator
     Args:
         tfrecords_file: string, tfrecords file path
-        buffer_size: int, the number of example in the dataset, for perfect shuffling, a buffer size greater than or equal to the full size of the dataset is required
+        shape: 3D tensor shape of [height, width, channel]
+        batch_size: int, batch size 
+        num_images: int, the number of example in the dataset, for perfect shuffling, a buffer size greater than or equal to the full size of the dataset is required
+        mode: string, imahe normalization methods, default values are 'tf', 'torch' and 'caffe'
+        is_training: boolean, training dataset
         is_shuffle: boolean, shuffle dataset
     Returns:
         A tuple of images and labels one batch by one batch
@@ -136,5 +140,4 @@ def read_tfrecords(tfrecords_file, shape, batch_size, num_images, num_epochs, mo
     image, label = iterator.get_next()
 
     return image, label
-
   
