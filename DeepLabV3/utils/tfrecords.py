@@ -43,12 +43,12 @@ def write_tfrecords(file_path, tfrecords_file):
 
         # check image format
         if image_filename.split('/')[-1].split('.')[-1] not in ['png']:
-            raise ValueError('The format of image must be jpg or JEPG')
+            raise ValueError('The format of image must be png')
             continue
 
         # make sure label format
         if label_filename.split('/')[-1].split('.')[-1] not in ['png']:
-            raise ValueError('The format of image must be jpg or JEPG')
+            raise ValueError('The format of image must be png')
             continue
 
         image, label = read_image_label(image_filename, label_filename)
