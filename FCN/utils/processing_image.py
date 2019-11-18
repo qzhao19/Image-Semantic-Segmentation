@@ -27,9 +27,10 @@ def read_image_label(image_filename_list, label_filename_list):
         bgr_label = cv2.imread(label_filename)
         
         # convert bgr image/label into a rgb image/label
-        rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
-        rgb_label = cv2.cvtColor(bgr_label, cv2.COLOR_BGR2RGB)
-
+        # rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
+        # rgb_label = cv2.cvtColor(bgr_label, cv2.COLOR_BGR2RGB)
+        
+        rgb_label = rgb_label[:, :, 0].reshape((rgb_label.shape[0], rgb_label.shape[1], 1))           
         images.append(rgb_image)
         labels.append(rgb_label)
 
